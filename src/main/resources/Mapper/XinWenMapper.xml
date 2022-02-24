@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.dao.XinWenDao">
+    <!--    namespace命名空间名要和接口名一致-->
+<!--    使用useGeneratedKeys对于自增长的id值插入成功后，数据库自增id值会返回到实体类的keyProperty属性设置的实体类属性中,不加数据库也会自增id，加了可以取出并返回到实体类属性中-->
+    <insert id="insertXinWen" parameterType="XinWenXinXi" useGeneratedKeys="true" keyProperty="id">
+        insert into xin_wen(leixing_id, zhuTi, neiRong,tupianlujing)
+        values (#{LeiXingId}, #{zhuTi}, #{neiRong}, #{tuPianLuJing})
+    </insert>
+    <update id="updateXinWen" parameterType="XinWenXinXi">
+        update xin_wen
+        set leixing_id=#{leixingId}, zhuTi=#{zhuTi}, neiRong=#{neiRong},tuPianLuJing=#{tuPianLuJing}
+        where id=#{id}
+    </update>
+    <delete id="deleteXinWenById" parameterType="int">
+        delete
+        from xin_wen
+        where id = #{id}
+    </delete>
+</mapper>

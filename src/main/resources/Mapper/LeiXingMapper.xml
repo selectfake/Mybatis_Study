@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.dao.LeiXingDao">
+    <select id="chaLeiXing" resultType="LeiXing">
+        SELECT * FROM lei_xing
+    </select>
+
+    <select id="chaLeiXingById" parameterType="int" resultType="LeiXing">
+        select * from lei_xing where id = #{yyy}
+    </select>
+
+    <select id="chaLeiXingByLeiXing" parameterType="LeiXing" resultType="LeiXing">
+        select * from lei_xing where id = #{id} and leixing=#{leiXing}
+    </select>
+</mapper>
