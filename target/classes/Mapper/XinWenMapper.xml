@@ -3,20 +3,85 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.study.dao.XinWenDao">
+    <sql id="columns">
+        leixing_id
+        ,zhuTi,neiRong,tupianlujing
+    </sql>
     <!--    namespace命名空间名要和接口名一致-->
-<!--    使用useGeneratedKeys对于自增长的id值插入成功后，数据库自增id值会返回到实体类的keyProperty属性设置的实体类属性中,不加数据库也会自增id，加了可以取出并返回到实体类属性中-->
+    <!--    使用useGeneratedKeys对于自增长的id值插入成功后，数据库自增id值会返回到实体类的keyProperty属性设置的实体类属性中,不加数据库也会自增id，加了可以取出并返回到实体类属性中-->
     <insert id="insertXinWen" parameterType="XinWenXinXi" useGeneratedKeys="true" keyProperty="id">
-        insert into xin_wen(leixing_id, zhuTi, neiRong,tupianlujing)
+        insert into xin_wen(leixing_id, zhuTi, neiRong, tupianlujing)
         values (#{LeiXingId}, #{zhuTi}, #{neiRong}, #{tuPianLuJing})
     </insert>
-    <update id="updateXinWen" parameterType="XinWenXinXi">
-        update xin_wen
-        set leixing_id=#{leixingId}, zhuTi=#{zhuTi}, neiRong=#{neiRong},tuPianLuJing=#{tuPianLuJing}
-        where id=#{id}
-    </update>
-    <delete id="deleteXinWenById" parameterType="int">
-        delete
-        from xin_wen
-        where id = #{id}
-    </delete>
-</mapper>
+    <insert id="insertXinWenDynamic" parameterType="XinWenXinXi">
+        insert into xin_wen
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="LeiXingId !=null">
+                leixing_id,
+            </if>
+            <if test="zhuTi !=null">
+                zhuTi,
+            </if>
+            <if test="neiRong !=null">
+                neiRong,
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="LeiXingId!=null">
+                #{LeiXingId},
+            </if>
+            <if test="zhuTi!=null">
+                #{zhuTi},
+            </if>
+            <if test="neiRong!=null">
+                #{neiRong},
+            </if>
+        </trim>
+    </insert>
+<update id="updateXinWen" parameterType="XinWenXinXi">
+update xin_wen
+set leixing_id=#{leixingId},
+    zhuTi=#{zhuTi},
+    neiRong=#{neiRong},
+    tuPianLuJing=#{tuPianLuJing}
+where id = #{id}
+</update>
+<update id="updateXinWenDynamic" parameterType="XinWenXinXi">
+update xin_wen
+<set>
+    <if test="LeiXingId != null">
+        leixing_id = #{LeiXingId},
+    </if>
+    <if test="zhuTi != null">
+        zhuTi = #{zhuTi},
+    </if>
+    <if test="neiRong != null">
+        neiRong = #{neiRong},
+    </if>
+    -- 区分大小写
+</set>
+where id =#{id}
+</update>
+<delete id="deleteXinWenById" parameterType="int">
+delete
+from xin_wen
+where id = #{id}
+</delete>
+
+<select id="chaXinWenXinXiByTiaoJian" resultType="com.study.entity.XinWenXinXi" parameterType="XinWenTiaoJian">
+select <include refid="columns"></include> from xin_wen
+<where>
+    <if test="zhuTi !=null">
+        and zhuTi like concat('%',#{zhuTi},'%')
+    </if>
+</where>
+</select>
+
+<select id="testForeach" parameterType="list" resultType="com.study.entity.XinWenXinXi">
+select * FROM xin_wen where id in
+<foreach collection="list" item="xx" open="(" close=")" separator=",">
+    #{xx}
+</foreach>
+</select>
+
+        </mapper>

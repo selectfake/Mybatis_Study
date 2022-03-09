@@ -8,6 +8,7 @@ package com.study.entity;
 public class XinWenXinXi {
   private Integer id;
   private Integer LeiXingId;
+
   private String zhuTi;
   private String neiRong;
   private String tuPianLuJing;

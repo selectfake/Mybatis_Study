@@ -12,8 +12,12 @@ import java.util.List;
  */
 public interface DianYingDao {
   void insertDianYing(DianYingXinXi dy);
+
   void updateDianYing(DianYingXinXi dy);
+
   void deleteDianYingById(DianYingXinXi dy);
- List<DianYingXinXi> chaDianYing();
- List<DianYingXinXi> chaDianYingByTiaoJian(TiaoJian tiaoJian);
+
+  List<DianYingXinXi> chaDianYing();
+
+  List<DianYingXinXi> chaDianYingByTiaoJian(TiaoJian tiaoJian);
 }
